@@ -31,5 +31,5 @@ sh <(wget -O - https://raw.githubusercontent.com/StressOzz/tg-ws-proxy-Manager/m
 
 # Благодарности
 
-- **tg-ws-proxy** by *Flowseal* (https://github.com/Flowseal)
-- [**инструкция**](https://github.com/StressOzz/Zapret-Manager/issues/357#issue-4108723815) by *gre4ka* (https://github.com/gre4kapi)
+- **tg-ws-proxy** by [*Flowseal*](https://github.com/Flowseal)
+- [**инструкция**](https://github.com/StressOzz/Zapret-Manager/issues/357#issue-4108723815) by [*gre4ka*](https://github.com/gre4kapi)

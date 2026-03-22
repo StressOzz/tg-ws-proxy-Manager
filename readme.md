@@ -31,7 +31,8 @@ sh <(wget -O - https://raw.githubusercontent.com/StressOzz/tg-ws-proxy-Manager/m
 ```
 В меню нажмите **2**
 
-При удалении удаляются пакеты **python3-light**, **python3-pip**, **git-http** и все зависимости, связанные с этими пакетами.
+> [!IMPORTANT]
+> При удалении будут также удалены пакеты **python**, **gi**t и все зависимости, связанные с ними.
 
 # Благодарности
 

@@ -23,11 +23,9 @@ LAN_IP=$(uci get network.lan.ipaddr 2>/dev/null | cut -d/ -f1)
 
 PAUSE() { echo -ne "\nНажмите Enter..."; read dummy; }
 
-FREE_SPACE=$(df -m /root | awk 'NR==2 {print $4}')
-
 install_tg_ws() {
 
-if [ "$FREE_SPACE" -lt 50 ]; then
+if [ "$(df -m /root 2>/dev/null | awk 'NR==2 {print $4+0}')" -lt 50 ]; then
     echo -e "\n${RED}Недостаточно свободного места!${NC}"
     PAUSE
     return 1

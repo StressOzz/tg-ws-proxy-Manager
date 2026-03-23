@@ -12,6 +12,11 @@ NC="\033[0m"
 TG_URL="https://github.com/StressOzz/tg-ws-proxy-Manager/raw/main/tg-ws-proxy-main.zip"
 # TG_URL="https://github.com/Flowseal/tg-ws-proxy/archive/refs/heads/master.zip"
 
+if [ "$(awk -F\' '/DISTRIB_ARCH/ {print $2}' /etc/openwrt_release)" = "mipsel_24kc" ]; then
+    echo -e "\n${RED}Роутеры на архитектуре ${NC}mipsel_24kc${RED} не поддерживается!${NC}\n"
+    exit 1
+fi
+
 if command -v opkg >/dev/null 2>&1; then
     PKG="opkg"
     UPDATE="opkg update"

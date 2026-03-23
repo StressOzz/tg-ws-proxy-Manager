@@ -35,7 +35,7 @@ echo -e "\n${MAGENTA}=== Обновляем пакеты ===${NC}"
 $UPDATE
 
 echo -e "${MAGENTA}=== Устанавливаем необходимые пакеты ===${NC}"
-$INSTALL python3-light python3-pip git-http
+$INSTALL python3-light python3-pip git-http python3-psutil python3-cryptography
 
 echo -e "${MAGENTA}=== Клонируем репозиторий tg-ws-proxy ===${NC}"
 
@@ -52,7 +52,7 @@ if ! git clone https://github.com/Flowseal/tg-ws-proxy . ; then
 fi
 
 echo -e "${MAGENTA}=== Устанавливаем tg-ws-proxy ===${NC}"
-pip install --disable-pip-version-check --timeout 2 --retries 1 -e .
+pip install --no-deps --disable-pip-version-check --timeout 2 --retries 1 -e .
 
 cat << 'EOF' > /etc/init.d/tg-ws-proxy
 #!/bin/sh /etc/rc.common
@@ -96,10 +96,10 @@ pip uninstall -y tg-ws-proxy >/dev/null 2>&1
 local attempts=0
 while [ $attempts -lt 10 ]; do
     if command -v opkg >/dev/null 2>&1; then
-        opkg remove --autoremove --force-removal-of-dependent-packages python3-light python3-pip git-http >/dev/null 2>&1
+        opkg remove --autoremove --force-removal-of-dependent-packages python3-light python3-pip python3-psutil python3-cryptography git-http >/dev/null 2>&1
         CHECK_CMD="opkg list-installed"
     else
-        apk del python3-light python3-pip git-http >/dev/null 2>&1
+        apk del python3-light python3-pip python3-psutil python3-cryptography git-http >/dev/null 2>&1
         CHECK_CMD="apk info"
     fi
     

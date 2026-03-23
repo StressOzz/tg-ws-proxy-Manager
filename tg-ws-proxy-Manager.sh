@@ -12,8 +12,10 @@ NC="\033[0m"
 TG_URL="https://github.com/StressOzz/tg-ws-proxy-Manager/raw/main/tg-ws-proxy-main.zip"
 # TG_URL="https://github.com/Flowseal/tg-ws-proxy/archive/refs/heads/master.zip"
 
+echo 'sh <(wget -O - https://raw.githubusercontent.com/StressOzz/tg-ws-proxy-Manager/main/tg-ws-proxy-Manager.sh)' > /usr/bin/tpm; chmod +x /usr/bin/tpm
+
 if [ "$(awk -F\' '/DISTRIB_ARCH/ {print $2}' /etc/openwrt_release)" = "mipsel_24kc" ]; then
-    echo -e "\n${RED}Роутеры на архитектуре ${NC}mipsel_24kc${RED} не поддерживается!${NC}\n"
+    echo -e "\n${RED}Роутер на архитектуре ${NC}mipsel_24kc${RED} не поддерживается!${NC}\n"
     exit 1
 fi
 
@@ -39,13 +41,13 @@ if [ "$(df -m /root 2>/dev/null | awk 'NR==2 {print $4+0}')" -lt 50 ]; then
     return 1
 fi
 
-echo -e "\n${MAGENTA}=== Обновляем пакеты ===${NC}"
+echo -e "\n${MAGENTA}Обновляем пакеты${NC}"
 $UPDATE
 
-echo -e "${MAGENTA}=== Устанавливаем необходимые пакеты ===${NC}"
+echo -e "${MAGENTA}Устанавливаем необходимые пакеты${NC}"
 $INSTALL python3-light python3-pip python3-psutil python3-cryptography unzip
 
-echo -e "${MAGENTA}=== Скачиваем tg-ws-proxy ===${NC}"
+echo -e "${MAGENTA}Скачиваем и распаковываем tg-ws-proxy${NC}"
 
 rm -rf "/root/tg-ws-proxy"
 
@@ -68,7 +70,7 @@ rm -f tg-ws-proxy.zip
 
 cd /root/tg-ws-proxy || exit 1
 
-echo -e "${MAGENTA}=== Устанавливаем tg-ws-proxy ===${NC}"
+echo -e "${MAGENTA}Устанавливаем tg-ws-proxy${NC}"
 pip install --no-deps --disable-pip-version-check --timeout 2 --retries 1 -e .
 
 cat << 'EOF' > /etc/init.d/tg-ws-proxy
@@ -89,12 +91,12 @@ chmod +x /etc/init.d/tg-ws-proxy
 /etc/init.d/tg-ws-proxy enable >/dev/null 2>&1
 /etc/init.d/tg-ws-proxy start >/dev/null 2>&1
 
-echo -e "\n${GREEN}=== Установка завершена ===${NC}"
+echo -e "\n${GREEN}Установка завершена${NC}"
 PAUSE
 }
 
 delete_tg_ws() {
-echo -e "\n${MAGENTA}=== Удаялем tg-ws-proxy ===${NC}"
+echo -e "\n${MAGENTA}Удаялем tg-ws-proxy${NC}"
 
 echo -e "${CYAN}Останавливаем сервис${NC}"
 /etc/init.d/tg-ws-proxy stop >/dev/null 2>&1
@@ -131,9 +133,9 @@ done
         echo -e "${RED}Некоторые пакеты не удалились! Повторите удаление!${NC}"
     fi
     
-rm -rf /usr/lib/python* /usr/bin/python* /root/.cache/pip /root/.local/lib/python* >/dev/null 2>&1
+rm -rf /usr/lib/python* /usr/bin/python* /root/.cache/pip /root/.local/lib/python* /usr/bin/tg-ws-proxy* >/dev/null 2>&1
 
-echo -e "\n${GREEN}=== Удаление завершино ===${NC}"
+echo -e "\n${GREEN}Удаление завершино${NC}"
 PAUSE
 }
 

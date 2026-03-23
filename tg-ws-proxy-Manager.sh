@@ -15,7 +15,7 @@ TG_URL="https://github.com/StressOzz/tg-ws-proxy-Manager/raw/main/tg-ws-proxy-ma
 echo 'sh <(wget -O - https://raw.githubusercontent.com/StressOzz/tg-ws-proxy-Manager/main/tg-ws-proxy-Manager.sh)' > /usr/bin/tpm; chmod +x /usr/bin/tpm
 
 if [ "$(awk -F\' '/DISTRIB_ARCH/ {print $2}' /etc/openwrt_release)" = "mipsel_24kc" ]; then
-    echo -e "\n${RED}Роутер на архитектуре ${NC}mipsel_24kc${RED} не поддерживается!${NC}\n"
+    echo -e "\n${RED}Архитектура ${NC}mipsel_24kc${RED} не поддерживается !${NC}\n"
     exit 1
 fi
 

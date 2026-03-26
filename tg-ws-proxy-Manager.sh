@@ -16,8 +16,11 @@ echo 'sh <(wget -O - https://raw.githubusercontent.com/StressOzz/tg-ws-proxy-Man
 
 ARCH="$(awk -F\' '/DISTRIB_ARCH/ {print $2}' /etc/openwrt_release)"
 
-if [ "$ARCH" = "mipsel_24kc" ] || [ "$ARCH" = "mips_24kc" ]; then
-    echo -e "\n${RED}Архитектура ${NC}$ARCH${RED} не поддерживается !${NC}\n"
+OWRT_VER="$(awk -F"'" '/DISTRIB_RELEASE/ {print $2}' /etc/openwrt_release | cut -d. -f1)"
+
+if echo "$OWRT_VER" | grep -qE '^[0-9]+$' && [ "$OWRT_VER" -ge 25 ] && \
+   { [ "$ARCH" = "mipsel_24kc" ] || [ "$ARCH" = "mips_24kc" ]; }; then
+    echo -e "\n${RED}Архитектура ${NC}$ARCH${RED} не поддерживается на ${NC}OpenWrt $OWRT_VER+${RED} !${NC}\n"
     exit 1
 fi
 

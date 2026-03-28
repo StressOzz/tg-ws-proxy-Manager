@@ -99,7 +99,7 @@ rm -f tg-ws-proxy.zip
 cd /root/tg-ws-proxy || exit 1
 
 echo -e "\n${MAGENTA}Устанавливаем tg-ws-proxy${NC}"
-pip install --no-deps --disable-pip-version-check --timeout 2 --retries 1 -e .
+pip install --root-user-action=ignore --no-deps --disable-pip-version-check --timeout 2 --retries 1 -e .
 
 cat << 'EOF' > /etc/init.d/tg-ws-proxy
 #!/bin/sh /etc/rc.common

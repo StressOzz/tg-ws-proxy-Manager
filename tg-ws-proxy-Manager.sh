@@ -27,11 +27,11 @@ fi
 if command -v opkg >/dev/null 2>&1; then
     PKG="opkg"
     UPDATE="opkg update"
-    INSTALL="opkg install --force-reinstall"
+    INSTALL="opkg install"
 else
     PKG="apk"
     UPDATE="apk update"
-    INSTALL="apk add --force-reinstall"
+    INSTALL="apk add"
 fi
 
 LAN_IP=$(uci get network.lan.ipaddr 2>/dev/null | cut -d/ -f1)

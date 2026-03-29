@@ -12,10 +12,6 @@ NC="\033[0m"
 TG_URL="https://github.com/StressOzz/tg-ws-proxy-Manager/raw/main/tg-ws-proxy-main.zip"
 # TG_URL="https://github.com/Flowseal/tg-ws-proxy/archive/refs/heads/master.zip"
 
-ARCH="$(awk -F\' '/DISTRIB_ARCH/ {print $2}' /etc/openwrt_release)"
-
-OWRT_VER="$(awk -F"'" '/DISTRIB_RELEASE/ {print $2}' /etc/openwrt_release | cut -d. -f1)"
-
 LAN_IP=$(uci get network.lan.ipaddr 2>/dev/null | cut -d/ -f1)
 
 REQUIRED_PKGS="python3-light python3-pip python3-cryptography"
@@ -127,7 +123,7 @@ PAUSE
 }
 
 delete_tg_ws() {
-echo -e "\n${MAGENTA}Удаялем tg-ws-proxy${NC}"
+echo -e "\n${MAGENTA}Удаляем tg-ws-proxy${NC}"
 
 echo -e "${CYAN}Останавливаем сервис${NC}"
 /etc/init.d/tg-ws-proxy stop >/dev/null 2>&1
@@ -159,14 +155,15 @@ while [ $attempts -lt 10 ]; do
     
     attempts=$((attempts + 1))
 done
-    
-    if [ $attempts -eq 10 ]; then
-        echo -e "${RED}Некоторые пакеты не удалились!${NC}"
-    fi
-    
+
 rm -rf /usr/lib/python* /usr/bin/python* /root/.cache/pip /root/.local/lib/python* /usr/bin/tg-ws-proxy* >/dev/null 2>&1
 
-echo -e "\n${GREEN}Удаление завершено!${NC}"
+    if [ $attempts -eq 10 ]; then
+        echo -e "\n${RED}Некоторые пакеты не удалились!${NC}"
+    else
+        echo -e "\n${GREEN}Удаление завершено!${NC}"
+    fi
+    
 PAUSE
 }
 
@@ -186,8 +183,7 @@ else
 fi
 
 if pgrep -f tg-ws-proxy >/dev/null 2>&1; then
-    PORT=$(netstat -lnpt 2>/dev/null | grep tg-ws-proxy | awk '{print $4}' | cut -d: -f2)
-    echo -e "${YELLOW}адрес SOCKS5: ${NC}$LAN_IP:${PORT:-1080}"
+    echo -e "${YELLOW}адрес SOCKS5: ${NC}$LAN_IP:1080"
 fi
 
 echo -e "\n${CYAN}1) ${GREEN}Установить${NC} tg-ws-proxy"

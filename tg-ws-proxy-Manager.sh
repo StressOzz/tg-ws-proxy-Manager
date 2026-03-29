@@ -119,7 +119,12 @@ chmod +x /etc/init.d/tg-ws-proxy
 /etc/init.d/tg-ws-proxy enable >/dev/null 2>&1
 /etc/init.d/tg-ws-proxy start >/dev/null 2>&1
 
-echo -e "\n${GREEN}Установка завершена!${NC}"
+if pgrep -f tg-ws-proxy >/dev/null 2>&1; then
+    echo -e "\ntg-ws-proxy ${GREEN}установлен!${NC}"
+else
+    echo -e "\n${RED}Ошибка установки!${NC}"
+fi
+
 PAUSE
 }
 

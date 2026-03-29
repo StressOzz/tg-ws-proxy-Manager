@@ -12,8 +12,6 @@ NC="\033[0m"
 TG_URL="https://github.com/StressOzz/tg-ws-proxy-Manager/raw/main/tg-ws-proxy-main.zip"
 # TG_URL="https://github.com/Flowseal/tg-ws-proxy/archive/refs/heads/master.zip"
 
-LAN_IP=$(uci get network.lan.ipaddr 2>/dev/null | cut -d/ -f1)
-
 REQUIRED_PKGS="python3-light python3-pip python3-cryptography"
 
 PAUSE() { echo -ne "\nНажмите Enter..."; read dummy; }
@@ -48,7 +46,7 @@ if ! $UPDATE; then
     return 1
 fi
 
-echo -e "\n${MAGENTA}Проверяем возможность установки пакетов Python${NC}"
+echo -e "\n${MAGENTA}Проверяем доступность пакетов Python${NC}"
 
 failed=0
 for pkg in $REQUIRED_PKGS; do
@@ -177,13 +175,13 @@ echo -e "                       ${DGRAY}by StressOzz${NC}\n"
 if pgrep -f tg-ws-proxy >/dev/null 2>&1; then
     echo -e "${YELLOW}tg-ws-proxy:  ${GREEN}запущен${NC}"
 elif [ -d "/root/tg-ws-proxy" ] || python3 -m pip show tg-ws-proxy >/dev/null 2>&1; then
-    echo -e "${YELLOW}Статус tg-ws-proxy: ${RED}не запущен${NC}"
+    echo -e "${YELLOW}tg-ws-proxy: ${RED}не запущен${NC}"
 else
-    echo -e "${YELLOW}Статус tg-ws-proxy: ${RED}не установлен${NC}"
+    echo -e "${YELLOW}tg-ws-proxy: ${RED}не установлен${NC}"
 fi
 
 if pgrep -f tg-ws-proxy >/dev/null 2>&1; then
-    echo -e "${YELLOW}адрес SOCKS5: ${NC}$LAN_IP:1080"
+    echo -e "${YELLOW}адрес SOCKS5: ${NC}$(uci get network.lan.ipaddr 2>/dev/null | cut -d/ -f1):1080"
 fi
 
 echo -e "\n${CYAN}1) ${GREEN}Установить${NC} tg-ws-proxy"

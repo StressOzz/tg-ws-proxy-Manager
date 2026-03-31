@@ -1,21 +1,14 @@
-> [!WARNING]
-> Пакеты **Python** для архитектур **mips_24kc / mipsel_24kc** могут быть недоступны в некоторых версиях **OpenWrt** !
->
-> Скрипт проверит возможность установки пакетов на вашем устройстве.
-
----
-
 # Установка
 > [!IMPORTANT]
-> Для **tg-ws-proxy** необходимо не менее ≈ **25** МБ свободного места в корневом разделе.
+> Для **TG WS Proxy MTProto** необходимо ≈ **25** МБ свободного места в корневом разделе 
 >
-> Установка может длиться до **2** минут. Не прерывайте процесс!
+> Для **TG WS Proxy GO** необходимо ≈ **5** МБ свободного места в корневом разделе 
 
 - в SSH выполните
 ```
 sh <(wget -O - https://raw.githubusercontent.com/StressOzz/tg-ws-proxy-Manager/main/tg-ws-proxy-Manager.sh)
 ```
-- В меню нажмите **1**
+---
 
 # Настройка Telegram
 
@@ -31,17 +24,20 @@ sh <(wget -O - https://raw.githubusercontent.com/StressOzz/tg-ws-proxy-Manager/m
 - В поле **Сервер** укажите **IP**, в **Порт** укажите **порт**
 - Нажмите на галочку в верхнем правом углу
 
-# Удаление
-- в SSH выполните
-```
-sh <(wget -O - https://raw.githubusercontent.com/StressOzz/tg-ws-proxy-Manager/main/tg-ws-proxy-Manager.sh)
-```
-В меню нажмите **2**
+--- 
+
+> [!WARNING]
+> Пакеты **Python** для архитектур **mips_24kc / mipsel_24kc** могут быть недоступны в некоторых версиях **OpenWrt** !
+>
+> Скрипт проверит возможность установки пакетов на вашем устройстве.
 
 > [!IMPORTANT]
-> При удалении будут удалены пакеты **python3-light**, **python3-pip**, **python3-cryptography**, **unzip** и все зависимости, связанные с ними.
+> При удалении **TG WS Proxy MTProto** будут удалены пакеты **python3-light**, **python3-pip**, **python3-cryptography**, **unzip** и все зависимости, связанные с ними.
+
+---
 
 # Благодарности
 
-- **tg-ws-proxy** by [*Flowseal*](https://github.com/Flowseal)
+- [**tg-ws-proxy**](https://github.com/Flowseal/tg-ws-proxy) by [*Flowseal*](https://github.com/Flowseal)
+- [**tg-ws-proxy-go**](https://github.com/d0mhate/-tg-ws-proxy-Manager-go) by [*d0mhate*](https://github.com/d0mhate)
 - [**инструкция**](https://github.com/StressOzz/Zapret-Manager/issues/357#issue-4108723815) by [*gre4ka*](https://github.com/gre4kapi)

@@ -13,6 +13,8 @@ BIN_PATH="/usr/bin/tg-ws-proxy"; INIT_PATH="/etc/init.d/tg-ws-proxy"
 
 REQUIRED_PKGS="python3-light python3-pip python3-cryptography"
 
+SECRET="$(head -c 16 /dev/urandom | hexdump -v -e '/1 "%02x"')"
+
 PAUSE() { echo -ne "\nНажмите Enter..."; read dummy; }
 
 echo 'sh <(wget -O - https://raw.githubusercontent.com/StressOzz/tg-ws-proxy-Manager/main/tg-ws-proxy-Manager.sh)' > /usr/bin/tpm; chmod +x /usr/bin/tpm
@@ -94,7 +96,7 @@ cd /root/tg-ws-proxy
 echo -e "\n${MAGENTA}Устанавливаем tg-ws-proxy${NC}"
 pip install --root-user-action=ignore --no-deps --disable-pip-version-check --timeout 2 --retries 1 -e .
 
-cat << 'EOF' > /etc/init.d/tg-ws-proxy
+cat << EOF > /etc/init.d/tg-ws-proxy
 #!/bin/sh /etc/rc.common
 
 START=99
@@ -102,7 +104,7 @@ USE_PROCD=1
 
 start_service() {
     procd_open_instance
-    procd_set_param command /usr/bin/tg-ws-proxy --host 0.0.0.0 --secret 00000000000000000000000000000000
+    procd_set_param command /usr/bin/tg-ws-proxy --host 0.0.0.0 --secret $SECRET
     procd_set_param respawn
     procd_close_instance
 }
@@ -198,8 +200,8 @@ if pgrep -f tg-ws-proxy >/dev/null 2>&1 && [ -f "$BIN_PATH" ] && [ -f "$INIT_PAT
     echo -e "\n${YELLOW}Настройки MTProto в TG:${NC}"
     echo -e " ${YELLOW}Хост:${NC} $(ip -4 route get 1 | awk '{print $7; exit}')"
     echo -e " ${YELLOW}Порт:${NC} 1443"
-    echo -e " ${YELLOW}Ключ:${NC} dd00000000000000000000000000000000"
-    echo -e "\n${YELLOW}Ссылка для подключения:${NC}\ntg://proxy?server=$(ip -4 route get 1 | awk '{print $7; exit}')&port=1443&secret=dd00000000000000000000000000000000"
+    echo -e " ${YELLOW}Ключ:${NC} dd$SECRET"
+    echo -e "\n${YELLOW}Ссылка для подключения:${NC}\ntg://proxy?server=$(ip -4 route get 1 | awk '{print $7; exit}')&port=1443&secret=dd$SECRET"
 fi
 
 echo -e "\n${CYAN}1)${GREEN} $( [ -f "$BIN_PATH" ] && [ -f "$INIT_PATH" ] && [ -f /root/tg-ws-proxy/README.md ] && grep -q '^Telegram Desktop → MTProto' /root/tg-ws-proxy/README.md && echo -e "Удалить ${NC}TG WS Proxy MTProto" || echo "Установить ${NC}TG WS Proxy MTProto" )"

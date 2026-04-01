@@ -14,6 +14,7 @@ BIN_PATH="/usr/bin/tg-ws-proxy"; INIT_PATH="/etc/init.d/tg-ws-proxy"
 REQUIRED_PKGS="python3-light python3-pip python3-cryptography"
 
 SECRET="$(head -c 16 /dev/urandom | hexdump -v -e '/1 "%02x"')"
+SECRET_IN="$(sed -n 's/.*--secret[[:space:]]*\([0-9a-fA-F]\{32\}\).*/\1/p' /etc/init.d/tg-ws-proxy)"
 
 PAUSE() { echo -ne "\nНажмите Enter..."; read dummy; }
 
@@ -200,8 +201,8 @@ if pgrep -f tg-ws-proxy >/dev/null 2>&1 && [ -f "$BIN_PATH" ] && [ -f "$INIT_PAT
     echo -e "\n${YELLOW}Настройки MTProto в TG:${NC}"
     echo -e " ${YELLOW}Хост:${NC} $(ip -4 route get 1 | awk '{print $7; exit}')"
     echo -e " ${YELLOW}Порт:${NC} 1443"
-    echo -e " ${YELLOW}Ключ:${NC} dd$SECRET"
-    echo -e "\n${YELLOW}Ссылка для подключения:${NC}\ntg://proxy?server=$(ip -4 route get 1 | awk '{print $7; exit}')&port=1443&secret=dd$SECRET"
+    echo -e " ${YELLOW}Ключ:${NC} dd$SECRET_IN"
+    echo -e "\n${YELLOW}Ссылка для подключения:${NC}\ntg://proxy?server=$(ip -4 route get 1 | awk '{print $7; exit}')&port=1443&secret=dd$SECRET_IN"
 fi
 
 echo -e "\n${CYAN}1)${GREEN} $( [ -f "$BIN_PATH" ] && [ -f "$INIT_PATH" ] && [ -f /root/tg-ws-proxy/README.md ] && grep -q '^Telegram Desktop → MTProto' /root/tg-ws-proxy/README.md && echo -e "Удалить ${NC}TG WS Proxy MTProto" || echo "Установить ${NC}TG WS Proxy MTProto" )"

@@ -14,7 +14,6 @@ BIN_PATH="/usr/bin/tg-ws-proxy"; INIT_PATH="/etc/init.d/tg-ws-proxy"
 REQUIRED_PKGS="python3-light python3-pip python3-cryptography"
 
 SECRET="$(head -c 16 /dev/urandom | hexdump -v -e '/1 "%02x"')"
-SECRET_IN="$(sed -n 's/.*--secret[[:space:]]*\([0-9a-fA-F]\{32\}\).*/\1/p' /etc/init.d/tg-ws-proxy)"
 
 PAUSE() { echo -ne "\nНажмите Enter..."; read dummy; }
 
@@ -182,6 +181,7 @@ echo -e "\n${YELLOW}Настройки SOCKS5 в TG:${NC} ${NC}$(uci get network
 tg_GO() { if [ "$(df -m /root 2>/dev/null | awk 'NR==2 {print $4+0}')" -lt 5 ]; then echo -e "\n${RED}Недостаточно свободного места!${NC}"; PAUSE; return 1; fi; if [ -f "$BIN_PATH_GO" ] && [ -f "$INIT_PATH_GO" ]; then remove_TG; PAUSE; else install_TG; PAUSE; fi; }
 
 menu() {
+SECRET_IN="$(sed -n 's/.*--secret[[:space:]]*\([0-9a-fA-F]\{32\}\).*/\1/p' /etc/init.d/tg-ws-proxy)"
 clear
 echo -e "╔══════════════════════════════════╗"
 echo -e "║ ${BLUE}TG WS Proxy Manager by StressOzz${NC} ║"

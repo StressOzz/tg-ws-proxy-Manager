@@ -1,8 +1,13 @@
 # Установка
 > [!IMPORTANT]
-> Для **TG WS Proxy MTProto** необходимо ≈ **25** МБ свободного места в корневом разделе 
+> Для **TG WS Proxy Phyton** необходимо ≈ **25** МБ свободного места в корневом разделе
 >
-> Для **TG WS Proxy GO** необходимо ≈ **5** МБ свободного места в корневом разделе 
+> Для **TG WS Proxy GO** и **TG WS Proxy Rust** необходимо ≈ **5** МБ свободного места в корневом разделе
+>
+> Пакеты **Python** для архитектур **mips_24kc / mipsel_24kc** могут быть недоступны в некоторых версиях **OpenWrt** !
+>
+> **TG WS Proxy Rust** только для архитектуры **aarch64** и **x86_64**
+
 
 - в SSH выполните
 ```
@@ -28,13 +33,8 @@ sh <(wget -O - https://raw.githubusercontent.com/StressOzz/tg-ws-proxy-Manager/m
 
 --- 
 
-> [!WARNING]
-> Пакеты **Python** для архитектур **mips_24kc / mipsel_24kc** могут быть недоступны в некоторых версиях **OpenWrt** !
->
-> Скрипт проверит возможность установки пакетов на вашем устройстве.
-
 > [!IMPORTANT]
-> При удалении **TG WS Proxy MTProto** будут удалены пакеты **python3-light**, **python3-pip**, **python3-cryptography**, **unzip** и все зависимости, связанные с ними.
+> При удалении **TG WS Proxy Phyton** будут удалены пакеты **python3-light**, **python3-pip**, **python3-cryptography**, **unzip** и все зависимости, связанные с ними.
 
 ---
 
@@ -42,4 +42,5 @@ sh <(wget -O - https://raw.githubusercontent.com/StressOzz/tg-ws-proxy-Manager/m
 
 - [**tg-ws-proxy**](https://github.com/Flowseal/tg-ws-proxy) by [*Flowseal*](https://github.com/Flowseal)
 - [**tg-ws-proxy-go**](https://github.com/d0mhate/-tg-ws-proxy-Manager-go) by [*d0mhate*](https://github.com/d0mhate)
+- [**tg-ws-proxy-rs**](https://github.com/valnesfjord/tg-ws-proxy-rs)
 - [**инструкция**](https://github.com/StressOzz/Zapret-Manager/issues/357#issue-4108723815) by [*gre4ka*](https://github.com/gre4kapi)

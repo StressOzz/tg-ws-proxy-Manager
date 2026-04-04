@@ -12,6 +12,10 @@ BIN_PATH_GO="/usr/bin/tg-ws-proxy-go"; INIT_PATH_GO="/etc/init.d/tg-ws-proxy-go"
 BIN_PATH_RS="/usr/bin/tg-ws-proxy-rs"; INIT_PATH_RS="/etc/init.d/tg-ws-proxy-rs"
 BIN_PATH="/usr/bin/tg-ws-proxy"; INIT_PATH="/etc/init.d/tg-ws-proxy"
 
+TG_URL="https://github.com/Flowseal/tg-ws-proxy/archive/refs/heads/master.zip"
+
+TMP_ARCHIVE="/tmp/tg-ws-proxy-rs.tar.gz"; TMP_DIR="/tmp/tg-ws-proxy-rs"
+
 REQUIRED_PKGS="python3-light python3-pip python3-cryptography"
 
 SECRET="$(head -c16 /dev/urandom | hexdump -e '16/1 "%02x"')"
@@ -64,11 +68,11 @@ remove_TG_RS() {
     /etc/init.d/tg-ws-proxy-rs disable >/dev/null 2>&1
     rm -f "$BIN_PATH_RS"
     rm -f "$INIT_PATH_RS"
-    echo -e "TG WS Proxy Rs ${GREEN}удалён!${NC}"
+    echo -e "TG WS Proxy Rust ${GREEN}удалён!${NC}"
 }
 
 install_TG_RS() {
-    echo -e "\n${MAGENTA}Установка TG WS Proxy Rs${NC}"
+    echo -e "\n${MAGENTA}Установка TG WS Proxy Rust${NC}"
 
     ARCH_FILE="$(get_arch_rs)" || {
         echo -e "\n${RED}Архитектура не поддерживается:${NC} $(uname -m)"
@@ -98,7 +102,7 @@ install_TG_RS() {
 
     LATEST_TAG="$(curl -Ls -o /dev/null -w '%{url_effective}' https://github.com/valnesfjord/tg-ws-proxy-rs/releases/latest | sed 's#.*/tag/##')"
     [ -z "$LATEST_TAG" ] && {
-        echo -e "\n${RED}Не удалось получить версию${NC} TG WS Proxy Rs"
+        echo -e "\n${RED}Не удалось получить версию${NC} TG WS Proxy Rust"
         PAUSE
         return 1
     }
@@ -146,9 +150,9 @@ EOF
     /etc/init.d/tg-ws-proxy-rs start
 
     if pidof tg-ws-proxy-rs >/dev/null 2>&1; then
-        echo -e "${GREEN}Сервис ${NC}TG WS Proxy Rs${GREEN} запущен!${NC}"
+        echo -e "${GREEN}Сервис ${NC}TG WS Proxy Rust${GREEN} запущен!${NC}"
     else
-        echo -e "\n${RED}Сервис TG WS Proxy Rs не запущен!${NC}"
+        echo -e "\n${RED}Сервис TG WS Proxy Rust не запущен!${NC}"
     fi
 }
 
@@ -290,17 +294,122 @@ PAUSE
 
 ##############################################################################################################
 
-get_arch() { if command -v opkg >/dev/null 2>&1; then ARCH="$(opkg print-architecture | awk '{print $2}' | tail -n1)"; elif command -v apk >/dev/null 2>&1; then ARCH="$(apk --print-arch 2>/dev/null)"; fi; case "$ARCH" in aarch64*) echo "tg-ws-proxy-openwrt-aarch64";;
-armv7*|armhf|armv7l) echo "tg-ws-proxy-openwrt-armv7";; mipsel_24kc|mipsel*) echo "tg-ws-proxy-openwrt-mipsel_24kc";; mips_24kc|mips*) echo "tg-ws-proxy-openwrt-mips_24kc";; x86_64) echo "tg-ws-proxy-openwrt-x86_64";; *) echo -e "\n${RED}Архитектура не поддерживается: ${NC}$ARCH"; PAUSE; return 1;; esac; }
-remove_TG() { echo -e "\n${MAGENTA}Удаляем TG WS Proxy Go${NC}"; /etc/init.d/tg-ws-proxy-go stop >/dev/null 2>&1; /etc/init.d/tg-ws-proxy-go disable >/dev/null 2>&1; rm -f "$BIN_PATH_GO"; rm -f "$INIT_PATH_GO"; echo -e "TG WS Proxy Go ${GREEN}удалён!${NC}"; }
-install_TG() { echo -e "\n${MAGENTA}Установка TG WS Proxy Go${NC}"; ARCH_FILE="$(get_arch)" || { echo -e "\n${RED}Архитектура не поддерживается:${NC} $(uname -m)"; PAUSE; return 1; }; 
-if ! command -v curl >/dev/null 2>&1; then echo -e "${CYAN}Устанавливаем ${NC}curl"; if command -v opkg >/dev/null 2>&1; then opkg update >/dev/null 2>&1 && opkg install curl >/dev/null 2>&1 || { echo -e "\n${RED}Ошибка установки curl${NC}"; PAUSE; return 1; }
-elif command -v apk >/dev/null 2>&1; then apk update >/dev/null 2>&1 && apk add curl >/dev/null 2>&1 || { echo -e "\n${RED}Ошибка установки curl${NC}"; PAUSE; return 1; }; fi; fi; echo -e "${CYAN}Скачиваем и устанавливаем${NC} $ARCH_FILE"; 
-LATEST_TAG="$(curl -Ls -o /dev/null -w '%{url_effective}' https://github.com/d0mhate/-tg-ws-proxy-Manager-go/releases/latest | sed 's#.*/tag/##')"; [ -z "$LATEST_TAG" ] && { echo -e "\n${RED}Не удалось получить версию${NC} TG WS Proxy Go"; PAUSE; return 1; }
-DOWNLOAD_URL="https://github.com/d0mhate/-tg-ws-proxy-Manager-go/releases/download/$LATEST_TAG/$ARCH_FILE"; curl -L --fail -o "$BIN_PATH_GO" "$DOWNLOAD_URL" >/dev/null 2>&1 || { echo -e "\n${RED}Ошибка скачивания${NC}"; PAUSE; return 1; }; chmod +x "$BIN_PATH_GO"
-printf '%s\n' '#!/bin/sh /etc/rc.common' 'START=99' 'USE_PROCD=1' 'start_service() { procd_open_instance; procd_set_param command /usr/bin/tg-ws-proxy-go --host 0.0.0.0 --port 1080; procd_set_param respawn; procd_set_param stdout /dev/null; procd_set_param stderr /dev/null; procd_close_instance; }' > "$INIT_PATH_GO"
-chmod +x "$INIT_PATH_GO"; /etc/init.d/tg-ws-proxy-go enable; /etc/init.d/tg-ws-proxy-go start; if pidof tg-ws-proxy-go >/dev/null 2>&1; then echo -e "${GREEN}Сервис ${NC}TG WS Proxy Go${GREEN} запущен!${NC}"; else echo -e "\n${RED}Сервис TG WS Proxy Go не запущен!${NC}"; fi; }
-tg_GO() { if [ -f "$BIN_PATH_GO" ] && [ -f "$INIT_PATH_GO" ]; then remove_TG; PAUSE; elif [ "$(df -m /root 2>/dev/null | awk 'NR==2 {print $4+0}')" -lt 5 ]; then echo -e "\n${RED}Недостаточно свободного места!${NC}"; PAUSE; return 1; else install_TG; PAUSE; fi; }
+get_arch() {
+    if command -v opkg >/dev/null 2>&1; then
+        ARCH="$(opkg print-architecture | awk '{print $2}' | tail -n1)"
+    elif command -v apk >/dev/null 2>&1; then
+        ARCH="$(apk --print-arch 2>/dev/null)"
+    fi
+
+    case "$ARCH" in
+        aarch64*)
+            echo "tg-ws-proxy-openwrt-aarch64"
+        ;;
+        armv7*|armhf|armv7l)
+            echo "tg-ws-proxy-openwrt-armv7"
+        ;;
+        mipsel_24kc|mipsel*)
+            echo "tg-ws-proxy-openwrt-mipsel_24kc"
+        ;;
+        mips_24kc|mips*)
+            echo "tg-ws-proxy-openwrt-mips_24kc"
+        ;;
+        x86_64)
+            echo "tg-ws-proxy-openwrt-x86_64"
+        ;;
+        *)
+            echo "Неизвестная архитектура: $ARCH"
+            return 1
+        ;;
+    esac
+}
+
+remove_TG() {
+    echo -e "\n${MAGENTA}Удаляем TG WS Proxy Go${NC}"
+    /etc/init.d/tg-ws-proxy-go stop >/dev/null 2>&1
+    /etc/init.d/tg-ws-proxy-go disable >/dev/null 2>&1
+    rm -f "$BIN_PATH_GO"
+    rm -f "$INIT_PATH_GO"
+    echo -e "TG WS Proxy Go ${GREEN}удалён!${NC}"
+}
+
+install_TG() {
+    echo -e "\n${MAGENTA}Установка TG WS Proxy Go${NC}"
+
+    ARCH_FILE="$(get_arch)" || {
+        echo -e "\n${RED}Архитектура не поддерживается:${NC} $(uname -m)"
+        PAUSE
+        return 1
+    }
+
+    if ! command -v curl >/dev/null 2>&1; then
+        echo -e "${CYAN}Устанавливаем ${NC}curl"
+
+        if command -v opkg >/dev/null 2>&1; then
+            opkg update >/dev/null 2>&1 && opkg install curl >/dev/null 2>&1 || {
+                echo -e "\n${RED}Ошибка установки curl${NC}"
+                PAUSE
+                return 1
+            }
+        elif command -v apk >/dev/null 2>&1; then
+            apk update >/dev/null 2>&1 && apk add curl >/dev/null 2>&1 || {
+                echo -e "\n${RED}Ошибка установки curl${NC}"
+                PAUSE
+                return 1
+            }
+        fi
+    fi
+
+    echo -e "${CYAN}Скачиваем и устанавливаем${NC} $ARCH_FILE"
+
+    LATEST_TAG="$(curl -Ls -o /dev/null -w '%{url_effective}' https://github.com/d0mhate/-tg-ws-proxy-Manager-go/releases/latest | sed 's#.*/tag/##')"
+    [ -z "$LATEST_TAG" ] && {
+        echo -e "\n${RED}Не удалось получить версию${NC} TG WS Proxy Go"
+        PAUSE
+        return 1
+    }
+
+    DOWNLOAD_URL="https://github.com/d0mhate/-tg-ws-proxy-Manager-go/releases/download/$LATEST_TAG/$ARCH_FILE"
+
+    curl -L --fail -o "$BIN_PATH_GO" "$DOWNLOAD_URL" >/dev/null 2>&1 || {
+        echo -e "\n${RED}Ошибка скачивания${NC}"
+        PAUSE
+        return 1
+    }
+
+    chmod +x "$BIN_PATH_GO"
+
+    printf '%s\n' \
+        '#!/bin/sh /etc/rc.common' \
+        'START=99' \
+        'USE_PROCD=1' \
+        'start_service() { procd_open_instance; procd_set_param command /usr/bin/tg-ws-proxy-go --host 0.0.0.0 --port 1080; procd_set_param respawn; procd_set_param stdout /dev/null; procd_set_param stderr /dev/null; procd_close_instance; }' \
+        > "$INIT_PATH_GO"
+
+    chmod +x "$INIT_PATH_GO"
+    /etc/init.d/tg-ws-proxy-go enable
+    /etc/init.d/tg-ws-proxy-go start
+
+    if pidof tg-ws-proxy-go >/dev/null 2>&1; then
+        echo -e "${GREEN}Сервис ${NC}TG WS Proxy Go${GREEN} запущен!${NC}"
+    else
+        echo -e "\n${RED}Сервис TG WS Proxy Go не запущен!${NC}"
+    fi
+}
+
+tg_GO() {
+    if [ -f "$BIN_PATH_GO" ] && [ -f "$INIT_PATH_GO" ]; then
+        remove_TG
+        PAUSE
+    elif [ "$(df -m /root 2>/dev/null | awk 'NR==2 {print $4+0}')" -lt 5 ]; then
+        echo -e "\n${RED}Недостаточно свободного места!${NC}"
+        PAUSE
+        return 1
+    else
+        install_TG
+        PAUSE
+    fi
+}
 
 ##############################################################################################################
 
@@ -337,7 +446,7 @@ fi
 
 if pgrep -f tg-ws-proxy-rs >/dev/null 2>&1 && [ -f "$BIN_PATH_RS" ] && [ -f "$INIT_PATH_RS" ]; then
     SECRET_IN="$(sed -n 's/.*--secret[[:space:]]*\([0-9a-fA-F]\{32\}\).*/\1/p' "$INIT_PATH_RS")"
-    echo -e "\n${YELLOW}Настройки ${CYAN}Rs${YELLOW} версии в TG:${NC}"
+    echo -e "\n${YELLOW}Настройки ${CYAN}Rust${YELLOW} версии в TG:${NC}"
     echo -e " ${YELLOW}Типы прокси:${NC} MTProto"
     echo -e " ${YELLOW}Хост:${NC} $(ip -4 route get 1 | awk '{print $7; exit}')"
     echo -e " ${YELLOW}Порт:${NC} 2443"
@@ -346,7 +455,7 @@ if pgrep -f tg-ws-proxy-rs >/dev/null 2>&1 && [ -f "$BIN_PATH_RS" ] && [ -f "$IN
 fi
 
 echo -e "\n${CYAN}1)${GREEN} $( [ -f "$BIN_PATH_GO" ] && [ -f "$INIT_PATH_GO" ] && echo -e "Удалить ${NC}TG WS Proxy Go" || echo "Установить ${NC}TG WS Proxy Go" )"
-echo -e "${CYAN}2)${GREEN} $( [ -f "$BIN_PATH_RS" ] && [ -f "$INIT_PATH_RS" ] && echo -e "Удалить ${NC}TG WS Proxy Rs" || echo "Установить ${NC}TG WS Proxy Rs" )"
+echo -e "${CYAN}2)${GREEN} $( [ -f "$BIN_PATH_RS" ] && [ -f "$INIT_PATH_RS" ] && echo -e "Удалить ${NC}TG WS Proxy Rust" || echo "Установить ${NC}TG WS Proxy Rust" )"
 echo -e "${CYAN}3)${GREEN} $( [ -f "$BIN_PATH" ] && [ -f "$INIT_PATH" ] && [ -f /root/tg-ws-proxy/README.md ] && echo -e "Удалить ${NC}TG WS Proxy Phyton" || echo "Установить ${NC}TG WS Proxy Phyton" )"
 echo -e "${CYAN}Enter) ${GREEN}Выход${NC}\n"
 echo -en "${YELLOW}Выберите пункт: ${NC}"
@@ -354,8 +463,7 @@ read choice
 case "$choice" in
 1) tg_GO ;;
 2) tg_RS ;;
-3) TG_URL="https://github.com/Flowseal/tg-ws-proxy/archive/refs/heads/master.zip"
-if [ -f "$BIN_PATH" ] && [ -f "$INIT_PATH" ] && [ -f /root/tg-ws-proxy/README.md ]; then delete_tg_ws; else install_tg_ws; fi ;;
+3) if [ -f "$BIN_PATH" ] && [ -f "$INIT_PATH" ]; then delete_tg_ws; else install_tg_ws; fi ;;
 *) echo; exit 0 ;;
 esac
 }

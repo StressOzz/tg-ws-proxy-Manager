@@ -42,5 +42,5 @@ sh <(wget -O - https://raw.githubusercontent.com/StressOzz/tg-ws-proxy-Manager/m
 
 - [**tg-ws-proxy**](https://github.com/Flowseal/tg-ws-proxy) by [*Flowseal*](https://github.com/Flowseal)
 - [**tg-ws-proxy-go**](https://github.com/d0mhate/-tg-ws-proxy-Manager-go) by [*d0mhate*](https://github.com/d0mhate)
-- [**tg-ws-proxy-rs**](https://github.com/valnesfjord/tg-ws-proxy-rs)
+- [**tg-ws-proxy-rs**](https://github.com/valnesfjord/tg-ws-proxy-rs) by [*valnesfjord*](https://github.com/valnesfjord)
 - [**инструкция**](https://github.com/StressOzz/Zapret-Manager/issues/357#issue-4108723815) by [*gre4ka*](https://github.com/gre4kapi)

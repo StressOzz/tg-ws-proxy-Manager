@@ -127,7 +127,7 @@ EOF
 }
 
 ##############################################################################################################
-# УСТАНОВКА PHYTON
+# УСТАНОВКА PYTHON
 ##############################################################################################################
 
 install_TG_PH() {
@@ -150,7 +150,7 @@ for pkg in $REQUIRED_PKGS; do
     if sh -c "$CHECK_AVAIL" | grep -qw "$pkg"; then
         echo -e "${GREEN}[OK]   ${NC}$pkg"
     else
-        echo -e "${RED}[FALL] ${NC}$pkg"
+        echo -e "${RED}[FAIL] ${NC}$pkg"
         failed=1
     fi
 done
@@ -162,7 +162,7 @@ fi
 
 echo -e "\n${MAGENTA}Устанавливаем необходимые пакеты${NC}"
 $INSTALL python3-light python3-pip python3-cryptography unzip
-echo -e "\n${MAGENTA}Скачиваем и распаковываем TG WS Proxy Phyton${NC}"
+echo -e "\n${MAGENTA}Скачиваем и распаковываем TG WS Proxy Python${NC}"
 rm -rf "/root/tg-ws-proxy"
 cd /root
 if ! wget -O tg-ws-proxy.zip "$TG_URL"; then
@@ -179,7 +179,7 @@ mv tg-ws-proxy-main tg-ws-proxy
 rm -f tg-ws-proxy.zip
 cd /root/tg-ws-proxy
 
-echo -e "\n${MAGENTA}Устанавливаем TG WS Proxy Phyton${NC}"
+echo -e "\n${MAGENTA}Устанавливаем TG WS Proxy Python${NC}"
 pip install --root-user-action=ignore --no-deps --disable-pip-version-check --timeout 2 --retries 1 -e .
 
 cat << EOF > /etc/init.d/tg-ws-proxy
@@ -201,7 +201,7 @@ chmod +x /etc/init.d/tg-ws-proxy
 /etc/init.d/tg-ws-proxy start >/dev/null 2>&1
 
 if pgrep -f tg-ws-proxy >/dev/null 2>&1; then
-    echo -e "\n${GREEN}Сервис ${NC}TG WS Proxy Phyton${GREEN} запущен!${NC}"
+    echo -e "\n${GREEN}Сервис ${NC}TG WS Proxy Python${GREEN} запущен!${NC}"
 else
     echo -e "\n${RED}Ошибка установки!${NC}"
 fi
@@ -209,7 +209,7 @@ PAUSE
 }
 
 delete_TG_PH() {
-echo -e "\n${MAGENTA}Удаляем TG WS Proxy Phyton${NC}"
+echo -e "\n${MAGENTA}Удаляем TG WS Proxy Python${NC}"
 
 echo -e "${CYAN}Останавливаем сервис${NC}"
 /etc/init.d/tg-ws-proxy stop >/dev/null 2>&1
@@ -362,7 +362,7 @@ fi
 
 if pgrep -f tg-ws-proxy >/dev/null 2>&1 && [ -f "$BIN_PATH_PH" ] && [ -f "$INIT_PATH_PH" ]; then
     SECRET_IN_PH="$(sed -n 's/.*--secret[[:space:]]*\([0-9a-fA-F]\{32\}\).*/\1/p' "$INIT_PATH_PH")"
-    echo -e "\n${YELLOW}Настройки ${CYAN}Phyton${YELLOW} версии в TG:${NC}"
+    echo -e "\n${YELLOW}Настройки ${CYAN}Python${YELLOW} версии в TG:${NC}"
     echo -e " ${YELLOW}Типы прокси:${NC} MTProto"
     echo -e " ${YELLOW}Хост:${NC} $(ip -4 route get 1 | awk '{print $7; exit}')"
     echo -e " ${YELLOW}Порт:${NC} 1443"
@@ -372,7 +372,7 @@ fi
 
 echo -e "\n${CYAN}1)${GREEN} $( [ -f "$BIN_PATH_GO" ] && [ -f "$INIT_PATH_GO" ] && echo -e "Удалить ${NC}TG WS Proxy Go" || echo "Установить ${NC}TG WS Proxy Go" )"
 echo -e "${CYAN}2)${GREEN} $( [ -f "$BIN_PATH_RS" ] && [ -f "$INIT_PATH_RS" ] && echo -e "Удалить ${NC}TG WS Proxy Rust" || echo "Установить ${NC}TG WS Proxy Rust" )"
-echo -e "${CYAN}3)${GREEN} $( [ -f "$BIN_PATH_PH" ] && [ -f "$INIT_PATH_PH" ] && echo -e "Удалить ${NC}TG WS Proxy Phyton" || echo "Установить ${NC}TG WS Proxy Phyton" )"
+echo -e "${CYAN}3)${GREEN} $( [ -f "$BIN_PATH_PH" ] && [ -f "$INIT_PATH_PH" ] && echo -e "Удалить ${NC}TG WS Proxy Python" || echo "Установить ${NC}TG WS Proxy Python" )"
 echo -e "${CYAN}Enter) ${GREEN}Выход${NC}\n"
 echo -en "${YELLOW}Выберите пункт: ${NC}"
 read choice

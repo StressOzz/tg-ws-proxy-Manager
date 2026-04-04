@@ -1,6 +1,6 @@
 # Установка
 > [!IMPORTANT]
-> Для **TG WS Proxy Phyton** необходимо ≈ **25** МБ свободного места в корневом разделе
+> Для **TG WS Proxy Python** необходимо ≈ **25** МБ свободного места в корневом разделе
 >
 > Для **TG WS Proxy GO** и **TG WS Proxy Rust** необходимо ≈ **5** МБ свободного места в корневом разделе
 >
@@ -34,7 +34,7 @@ sh <(wget -O - https://raw.githubusercontent.com/StressOzz/tg-ws-proxy-Manager/m
 --- 
 
 > [!IMPORTANT]
-> При удалении **TG WS Proxy Phyton** будут удалены пакеты **python3-light**, **python3-pip**, **python3-cryptography**, **unzip** и все зависимости, связанные с ними.
+> При удалении **TG WS Proxy Python** будут удалены пакеты **python3-light**, **python3-pip**, **python3-cryptography**, **unzip** и все зависимости, связанные с ними.
 
 ---
 

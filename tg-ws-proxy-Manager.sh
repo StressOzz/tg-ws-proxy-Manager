@@ -18,8 +18,6 @@ TMP_ARCHIVE="/tmp/tg-ws-proxy-rs.tar.gz"; TMP_DIR="/tmp/tg-ws-proxy-rs"
 
 REQUIRED_PKGS="python3-light python3-pip python3-cryptography"
 
-SECRET="$(head -c16 /dev/urandom | hexdump -e '16/1 "%02x"')"
-
 PAUSE() { echo -ne "\nНажмите Enter..."; read dummy; }
 
 echo 'sh <(wget -O - https://raw.githubusercontent.com/StressOzz/tg-ws-proxy-Manager/main/tg-ws-proxy-Manager.sh)' > /usr/bin/tpm; chmod +x /usr/bin/tpm
@@ -414,6 +412,9 @@ tg_GO() {
 ##############################################################################################################
 
 menu() {
+
+SECRET="$(head -c16 /dev/urandom | hexdump -e '16/1 "%02x"')"
+
 clear
 echo -e "╔══════════════════════════════════╗"
 echo -e "║ ${BLUE}TG WS Proxy Manager by StressOzz${NC} ║"
@@ -445,13 +446,13 @@ if pgrep -f tg-ws-proxy >/dev/null 2>&1 && [ -f "$BIN_PATH" ] && [ -f "$INIT_PAT
 fi
 
 if pgrep -f tg-ws-proxy-rs >/dev/null 2>&1 && [ -f "$BIN_PATH_RS" ] && [ -f "$INIT_PATH_RS" ]; then
-    SECRET_IN="$(sed -n 's/.*--secret[[:space:]]*\([0-9a-fA-F]\{32\}\).*/\1/p' "$INIT_PATH_RS")"
+    SECRET_IN_RS="$(sed -n 's/.*--secret[[:space:]]*\([0-9a-fA-F]\{32\}\).*/\1/p' "$INIT_PATH_RS")"
     echo -e "\n${YELLOW}Настройки ${CYAN}Rust${YELLOW} версии в TG:${NC}"
     echo -e " ${YELLOW}Типы прокси:${NC} MTProto"
     echo -e " ${YELLOW}Хост:${NC} $(ip -4 route get 1 | awk '{print $7; exit}')"
     echo -e " ${YELLOW}Порт:${NC} 2443"
     echo -e " ${YELLOW}Ключ:${NC} dd$SECRET_IN"
-    echo -e "${YELLOW}Ссылка для подключения:${NC}\ntg://proxy?server=$(ip -4 route get 1 | awk '{print $7; exit}')&port=2443&secret=dd$SECRET_IN"
+    echo -e "${YELLOW}Ссылка для подключения:${NC}\ntg://proxy?server=$(ip -4 route get 1 | awk '{print $7; exit}')&port=2443&secret=dd$SECRET_IN_RS"
 fi
 
 echo -e "\n${CYAN}1)${GREEN} $( [ -f "$BIN_PATH_GO" ] && [ -f "$INIT_PATH_GO" ] && echo -e "Удалить ${NC}TG WS Proxy Go" || echo "Установить ${NC}TG WS Proxy Go" )"

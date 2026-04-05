@@ -52,6 +52,12 @@ get_arch_RS() {
         x86_64)
             echo "tg-ws-proxy-x86_64-unknown-linux-musl.tar.gz"
         ;;
+        armv7*|armhf|armv7l)
+            echo "tg-ws-proxy-armv7-unknown-linux-musleabihf.tar.gz"
+        ;;
+        mipsel_24kc|mipsel*)
+            echo "tg-ws-proxy"
+        ;;       
         *)
             echo -e "\n${RED}Архитектура не поддерживается: ${NC}$ARCH"
             PAUSE
@@ -86,19 +92,23 @@ install_TG_RS() {
 
 DOWNLOAD_URL_RS="https://github.com/valnesfjord/tg-ws-proxy-rs/releases/download/$LATEST_TAG_RS/$ARCH_FILE_RS"
 
-curl -L --fail -o "$TMP_ARCHIVE_RS" "$DOWNLOAD_URL_RS" >/dev/null 2>&1 || { echo -e "\n${RED}Ошибка скачивания${NC}"; PAUSE; return 1; }
+if echo "$ARCH_FILE_RS" | grep -q "mipsel"; then
+    curl -L --fail -o "$BIN_PATH_RS" "$DOWNLOAD_URL_RS" >/dev/null 2>&1 || { echo -e "\n${RED}Ошибка скачивания${NC}"; PAUSE; return 1; }
+else
+    curl -L --fail -o "$TMP_ARCHIVE_RS" "$DOWNLOAD_URL_RS" >/dev/null 2>&1 || { echo -e "\n${RED}Ошибка скачивания${NC}"; PAUSE; return 1; }
 
-rm -rf "$TMP_DIR_RS"
-mkdir -p "$TMP_DIR_RS"
+    rm -rf "$TMP_DIR_RS"
+    mkdir -p "$TMP_DIR_RS"
 
-tar -xzf "$TMP_ARCHIVE_RS" -C "$TMP_DIR_RS" || { echo -e "\n${RED}Ошибка распаковки${NC}"; PAUSE; return 1; }
+    tar -xzf "$TMP_ARCHIVE_RS" -C "$TMP_DIR_RS" || { echo -e "\n${RED}Ошибка распаковки${NC}"; PAUSE; return 1; }
 
-mv "$TMP_DIR_RS"/tg-ws-proxy* "$BIN_PATH_RS"
+    mv "$TMP_DIR_RS"/tg-ws-proxy* "$BIN_PATH_RS"
+
+    rm -rf "$TMP_DIR_RS"
+    rm -rf "$TMP_ARCHIVE_RS"
+fi
 
 chmod +x "$BIN_PATH_RS"
-
-rm -rf "$TMP_DIR_RS"
-rm -rf "$TMP_ARCHIVE_RS"
 
 cat << EOF > /etc/init.d/tg-ws-proxy-rs
 #!/bin/sh /etc/rc.common

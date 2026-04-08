@@ -357,7 +357,7 @@ fi
 
 if pidof tg-ws-proxy-go >/dev/null 2>&1 && [ -f "$BIN_PATH_GO" ] && [ -f "$INIT_PATH_GO" ]; then 
 echo -e "\n${YELLOW}Настройки ${CYAN}Go${YELLOW} версии в TG:${NC}"
-    echo -e " ${YELLOW}Типы прокси:${NC} SOCKS5"
+    echo -e " ${YELLOW}Тип прокси:${NC} SOCKS5"
     echo -e " ${YELLOW}Хост:${NC} $LAN_IP"
     echo -e " ${YELLOW}Порт:${NC} 1080${NC}"
 fi
@@ -365,7 +365,7 @@ fi
 if pgrep -f tg-ws-proxy-rs >/dev/null 2>&1 && [ -f "$BIN_PATH_RS" ] && [ -f "$INIT_PATH_RS" ]; then
     SECRET_IN_RS="$(sed -n 's/.*--secret[[:space:]]*\([0-9a-fA-F]\{32\}\).*/\1/p' "$INIT_PATH_RS")"
     echo -e "\n${YELLOW}Настройки ${CYAN}Rust${YELLOW} версии в TG:${NC}"
-    echo -e " ${YELLOW}Типы прокси:${NC} MTProto"
+    echo -e " ${YELLOW}Тип прокси:${NC} MTProto"
     echo -e " ${YELLOW}Хост:${NC} $LAN_IP"
     echo -e " ${YELLOW}Порт:${NC} 2443"
     echo -e " ${YELLOW}Ключ:${NC} dd$SECRET_IN_RS"
@@ -375,7 +375,7 @@ fi
 if pgrep -f tg-ws-proxy >/dev/null 2>&1 && [ -f "$BIN_PATH_PH" ] && [ -f "$INIT_PATH_PH" ]; then
     SECRET_IN_PH="$(sed -n 's/.*--secret[[:space:]]*\([0-9a-fA-F]\{32\}\).*/\1/p' "$INIT_PATH_PH")"
     echo -e "\n${YELLOW}Настройки ${CYAN}Python${YELLOW} версии в TG:${NC}"
-    echo -e " ${YELLOW}Типы прокси:${NC} MTProto"
+    echo -e " ${YELLOW}Тип прокси:${NC} MTProto"
     echo -e " ${YELLOW}Хост:${NC} $LAN_IP"
     echo -e " ${YELLOW}Порт:${NC} 1443"
     echo -e " ${YELLOW}Ключ:${NC} dd$SECRET_IN_PH"

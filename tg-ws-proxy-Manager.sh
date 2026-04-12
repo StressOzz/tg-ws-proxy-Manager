@@ -54,7 +54,7 @@ get_arch_RS() {
         x86_64)
             echo "tg-ws-proxy-x86_64-unknown-linux-musl.tar.gz"
         ;;
-        armv7*|armhf|armv7l)
+        arm*)
             echo "tg-ws-proxy-armv7-unknown-linux-musleabihf.tar.gz"
         ;;
         mipsel_24kc|mipsel*)

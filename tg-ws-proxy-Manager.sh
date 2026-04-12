@@ -260,7 +260,7 @@ get_arch_GO() {
         aarch64*)
             echo "tg-ws-proxy-openwrt-aarch64"
         ;;
-        armv7*|armhf|armv7l)
+        arm*)
             echo "tg-ws-proxy-openwrt-armv7"
         ;;
         mipsel_24kc|mipsel*)

@@ -97,9 +97,6 @@ install_TG_RS() {
 
 DOWNLOAD_URL_RS="https://github.com/valnesfjord/tg-ws-proxy-rs/releases/download/$LATEST_TAG_RS/$ARCH_FILE_RS"
 
-if echo "$ARCH" | grep -q "mipsel"; then
-    curl -L --fail -o "$BIN_PATH_RS" "$DOWNLOAD_URL_RS" >/dev/null 2>&1 || { echo -e "\n${RED}Ошибка скачивания${NC}"; PAUSE; return 1; }
-else
     curl -L --fail -o "$TMP_ARCHIVE_RS" "$DOWNLOAD_URL_RS" >/dev/null 2>&1 || { echo -e "\n${RED}Ошибка скачивания${NC}"; PAUSE; return 1; }
 
     rm -rf "$TMP_DIR_RS"
@@ -111,7 +108,6 @@ else
 
     rm -rf "$TMP_DIR_RS"
     rm -rf "$TMP_ARCHIVE_RS"
-fi
 
 chmod +x "$BIN_PATH_RS"
 

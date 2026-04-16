@@ -57,7 +57,10 @@ get_arch_RS() {
         arm*)
             echo "tg-ws-proxy-armv7-unknown-linux-musleabihf.tar.gz"
         ;;
-        mipsel_24kc|mipsel*)
+        mips*)
+            echo "tg-ws-proxy-mips-unknown-linux-musl.tar.gz"
+        ;;
+        mipsel*)
             echo "tg-ws-proxy"
         ;;       
         *)
@@ -263,10 +266,10 @@ get_arch_GO() {
         arm*)
             echo "tg-ws-proxy-openwrt-armv7"
         ;;
-        mipsel_24kc|mipsel*)
+        mipsel*)
             echo "tg-ws-proxy-openwrt-mipsel_24kc"
         ;;
-        mips_24kc|mips*)
+        mips*)
             echo "tg-ws-proxy-openwrt-mips_24kc"
         ;;
         x86_64)

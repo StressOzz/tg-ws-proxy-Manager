@@ -61,7 +61,7 @@ get_arch_RS() {
             echo "tg-ws-proxy-mips-unknown-linux-musl.tar.gz"
         ;;
         mipsel*)
-            echo "tg-ws-proxy"
+            echo "tg-ws-proxy-mipsel-unknown-linux-musl.tar.gz"
         ;;       
         *)
             echo -e "\n${RED}Архитектура не поддерживается: ${NC}$ARCH"

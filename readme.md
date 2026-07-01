@@ -18,6 +18,11 @@
 </table>
 
 ---
+## Запуск:
+```
+sh <(wget -O - https://raw.githubusercontent.com/StressOzz/tg-ws-proxy-Manager/main/tg-ws-proxy-Manager.sh)
+```
+---
 
 # Благодарности
 
